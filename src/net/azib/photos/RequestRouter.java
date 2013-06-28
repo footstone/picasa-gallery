@@ -1,16 +1,20 @@
 package net.azib.photos;
 
+import java.io.IOException;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.google.gdata.data.BaseFeed;
 import com.google.gdata.data.Source;
 import com.google.gdata.data.photos.AlbumFeed;
-import com.google.gdata.data.photos.CommentEntry;
 import com.google.gdata.data.photos.GphotoEntry;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Map;
 
 public class RequestRouter implements Filter {
     public void init(FilterConfig config) throws ServletException {
@@ -20,11 +24,15 @@ public class RequestRouter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         String path = request.getServletPath();
-
+        
+        if (path.toLowerCase().startsWith("/image")){
+        	chain.doFilter(req, resp);
+        }
+        
         Picasa picasa = new Picasa(request.getParameter("by"), request.getParameter("authkey"));
         request.setAttribute("picasa", picasa);
         request.setAttribute("host", request.getHeader("host"));
-
+        
         if (request.getParameter("random") != null) {
             render("random", picasa.getRandomPhoto(), request, response);
         }
@@ -64,4 +72,11 @@ public class RequestRouter implements Filter {
 
     public void destroy() {
     }
+    public static void main(String[] args) {
+		String path="/08";
+		 String[] parts = path.split("/");
+		 System.out.println(parts.length);
+		 System.out.println(parts[0]);
+		 System.out.println(parts[1]);
+	}
 }

@@ -1,5 +1,6 @@
 package net.azib.photos;
 
+import com.footstone.photos.ConfigFactory;
 import com.google.gdata.client.photos.PicasawebService;
 import com.google.gdata.data.IFeed;
 import com.google.gdata.data.PlainTextConstruct;
@@ -13,9 +14,11 @@ import static java.lang.System.currentTimeMillis;
 import static java.util.Collections.synchronizedMap;
 
 public class Picasa {
-    static Properties config = loadConfig();
-    static String defaultUser = config.getProperty("google.user");
-    static String analytics = config.getProperty("google.analytics");
+   // static Properties config = loadConfig();
+   // static String defaultUser = config.getProperty("google.user");
+   // static String analytics = config.getProperty("google.analytics");	
+	static String defaultUser = ConfigFactory.getUserName();
+	static String analytics = ConfigFactory.getAnalytics();
     static PicasawebService service = new PicasawebService(defaultUser);
     static Random random = new Random(System.nanoTime() / Runtime.getRuntime().freeMemory());
 
@@ -116,7 +119,7 @@ public class Picasa {
 
     private <T extends IFeed> T feed(String url, Class<T> type) {
         try {
-            url = "http://picasaweb.google.com/data/feed/api/user/" + user + url;
+            url = "https://picasaweb.google.com/data/feed/api/user/" + user + url;
             if (authkey != null) url += (url.contains("?") ? "&" : "?") + "authkey=" + authkey;
             return service.getFeed(new URL(url), type);
         }
@@ -125,16 +128,16 @@ public class Picasa {
         }
     }
 
-    private static Properties loadConfig() {
-        Properties config = new Properties();
-        try {
-            config.load(Picasa.class.getResourceAsStream("/config.properties"));
-        }
-        catch (IOException e) {
-            throw new RuntimeException("Can't load config.properties");
-        }
-        return config;
-    }
+//    private static Properties loadConfig() {
+//        Properties config = new Properties();
+//        try {
+//            config.load(Picasa.class.getResourceAsStream("/config.properties"));
+//        }
+//        catch (IOException e) {
+//            throw new RuntimeException("Can't load config.properties");
+//        }
+//        return config;
+//    }
 
     public class RandomPhoto {
         private final GphotoEntry photo;

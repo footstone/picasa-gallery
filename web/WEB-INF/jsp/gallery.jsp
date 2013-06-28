@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="util" uri="/util" %>
 <jsp:useBean id="gallery" scope="request" type="com.google.gdata.data.photos.UserFeed"/>
 
 <!DOCTYPE html>
@@ -36,7 +37,7 @@
             <c:if test="${album.photosUsed > 0}">
                 <a id="${album.gphotoId}" class="fade" href="/${album.name}${picasa.urlSuffix}"
                     <c:if test="${album.geoLocation != null}">data-coords="${album.geoLocation.latitude}:${album.geoLocation.longitude}"</c:if>>
-                    <img src="${album.mediaThumbnails[0].url}" alt="${album.title.plainText} photos, pictures">
+                    <img src="${util:url(album.name,album.mediaThumbnails[0].url)} " alt="${album.title.plainText} photos, pictures">
                     <div class="title">
                         <span class="info">${album.photosUsed}</span>
                         <span class="text">${album.title.plainText}</span>

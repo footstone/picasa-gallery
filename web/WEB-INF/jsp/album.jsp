@@ -6,6 +6,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="util" uri="/util" %>
 <jsp:useBean id="album" scope="request" type="com.google.gdata.data.photos.AlbumFeed"/>
 <jsp:useBean id="comments" scope="request" type="java.util.List"/>
 
@@ -78,13 +79,14 @@
     <div class="thumbs clear">
         <c:forEach var="photo" items="${album.photoEntries}">
             <c:set var="media" value="${photo.mediaContents[0]}"/>
-            <a id="${photo.gphotoId}" href="${media.url}" class="photo"
+            <!-- href="${media.url}" -->
+             <a id="${photo.gphotoId}" href="${util:url(album.name,media.url)}" class="photo"
                title="${photo.description.plainText}"
                rel="${media.width}x${media.height}"
                onclick="return false;"
                <c:if test="${photo.geoLocation != null}">data-coords="${photo.geoLocation.latitude}:${photo.geoLocation.longitude}"</c:if>
                <c:if test="${photo.exifTags != null}">data-exif="${photo.exifTags.apetureFNumber}:${photo.exifTags.exposureTime}:${photo.exifTags.isoEquivalent}:${photo.exifTags.focalLength}"</c:if>>
-                <img src="/img/empty.png" class="missing" rel="${photo.mediaThumbnails[0].url}">
+               <img src="/img/empty.png" class="missing" rel="${util:url(album.name,photo.mediaThumbnails[0].url)}">
             </a>
         </c:forEach>
     </div>
