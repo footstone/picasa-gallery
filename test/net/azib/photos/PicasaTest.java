@@ -9,6 +9,7 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
+// test 
 public class PicasaTest {
   private Picasa picasa = new Picasa();
 
