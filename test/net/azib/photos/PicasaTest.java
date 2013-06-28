@@ -10,6 +10,8 @@ import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 // test 
+// test
+// test
 public class PicasaTest {
   private Picasa picasa = new Picasa();
 
