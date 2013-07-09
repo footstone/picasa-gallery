@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -29,11 +31,62 @@ public class Download {
 	
 	public static void main(String[] args) throws IOException {
 		long start_time = System.currentTimeMillis();
-		downloadAlbum(ConfigFactory.getUserName(),"BTCHG");
+		//downloadAlbum(ConfigFactory.getUserName(),"BTCHG");
+		//downloadAll(ConfigFactory.getUserName());
+		//pack(ConfigFactory.getUserName());
+		sync();
 		long end_time = System.currentTimeMillis();
 	
-		System.out.println("all download cost:" + (end_time - start_time)/1000 + "s");
+		System.out.println("finished. cost:" + (end_time - start_time)/1000 + "s");
+	}
 	
+	/**
+	 * synchronize
+	 * 
+	 * @throws IOException
+	 */
+	public static void sync() throws IOException {
+		List<String> list = getUnCachedAlbumNames();
+		System.out.println("------------------------------");
+		System.out.println("unsynchronized:");
+		System.out.println();
+		for (String str:list){
+			System.out.println(str);
+		}
+		
+		System.out.println("------------------------------");
+		System.out.println();
+		System.out.println("synchronizing...");
+		
+		for (String aName:list){
+			downloadAlbum(aName);
+		}
+	}
+	
+	/**
+	 * get uncached album names
+	 * @param userName
+	 * @return
+	 * @throws IOException
+	 */
+	public static List<String> getUnCachedAlbumNames() {
+		List<String> unCachedAlbumNames = new ArrayList<String>();
+		
+		// get albums that doesn't local cached
+		File localDir = new File(ConfigFactory.getLocalPath());
+		String[] albums = localDir.list();
+		List<String> localAlbumList = Arrays.asList(albums);
+		Picasa picasa = new Picasa(ConfigFactory.getUserName(),null);
+		UserFeed uf = picasa.getGallery();
+		List<AlbumEntry> remoteAlbumList = uf.getAlbumEntries();
+		for (AlbumEntry album : remoteAlbumList){
+			String name = album.getName();
+			if (!localAlbumList.contains(name)){
+				unCachedAlbumNames.add(name);
+			}
+		}
+		
+		return unCachedAlbumNames;
 	}
 	
 	/**
@@ -42,15 +95,15 @@ public class Download {
 	 * @param galleryName
 	 * @throws IOException
 	 */
-	public static void downloadAlbum(String userName,String albumName) throws IOException{
-		if (userName == null || ("").equals(userName)){
-			System.out.println("userName is null,check the config.properties.");
-			return;
-		}
+	public static void downloadAlbum(String albumName) throws IOException{
+//		if (userName == null || ("").equals(userName)){
+//			System.out.println("userName is null,check the config.properties.");
+//			return;
+//		}
 		if (albumName == null || ("").equals(albumName)){
 			System.out.println("albumName is null.");
 		}
-		Picasa picasa = new Picasa(userName,null);
+		Picasa picasa = new Picasa(ConfigFactory.getUserName(),null);
 		AlbumFeed album = picasa.getAlbum(albumName);
 		String localAlbumDir = CACHE_DIR + "/" + album.getName();
 		
@@ -86,20 +139,30 @@ public class Download {
 	 * 
 	 * @throws IOException
 	 */
-	public static void downloadAll(String userName) throws IOException{
-		if (userName == null || ("").equals(userName)){
-			System.out.println("username is null,check config.properties");
-			return;
-		}
-		Picasa picasa = new Picasa(userName,null);
+	public static void downloadAll() throws IOException{
+//		if (userName == null || ("").equals(userName)){
+//			System.out.println("username is null,check config.properties");
+//			return;
+//		}
+		Picasa picasa = new Picasa(ConfigFactory.getUserName(),null);
         UserFeed gallery = picasa.getGallery();
         List<AlbumEntry> albums = gallery.getAlbumEntries();
         for (AlbumEntry album : albums){
         	// save s212-c photos
-        	String dir = CACHE_DIR + album.getName() + "/" +SMALL_DIR_NAME;
+        	String dir = CACHE_DIR + "/" + album.getName() ;
         	String remotePath = album.getMediaThumbnails().get(0).getUrl();
-        	save(dir,remotePath);
+        	save(dir + "/" + SMALL_DIR_NAME,remotePath);
         	
+        	AlbumFeed af = picasa.getAlbum(album.getName());
+        	List<PhotoEntry> photos = af.getPhotoEntries();
+        	String thumbnailDir = dir +"/"+ THUMBNAIL_DIR_NAME;
+        	String contentDir = dir +"/"+ CONTENT_DIR_NAME;
+        	for (PhotoEntry photo : photos){
+        		// 保存小图
+        		save(thumbnailDir,photo.getMediaThumbnails().get(0).getUrl());
+        		// 保存大图
+        		save(contentDir,photo.getMediaContents().get(0).getUrl());
+        	}
         }
 	}
 	
