@@ -32,7 +32,7 @@ public class Pack {
         UserFeed gallery = picasa.getGallery();
         List<AlbumEntry> albums = gallery.getAlbumEntries();
         for (AlbumEntry album : albums){
-        	// ±£´æÏà²áËõÂÔÍ¼
+        	// save s212-c photos
         	String dir = CACHE_DIR + album.getName() + "/" +SMALL_DIR_NAME;
         	String remotePath = album.getMediaThumbnails().get(0).getUrl();
         	save(dir,remotePath);
@@ -44,7 +44,7 @@ public class Pack {
 	}
 	
 	/**
-	 * ÏÂÔØÔ¶¶ËÎÄ¼şµ½±¾µØÄ¿Â¼ÏÂ
+	 * download resource from remoteUrl to localDir, get the filename from the remoteUrl
 	 * 
 	 * @param localDir
 	 * @param remoteUrl
@@ -85,7 +85,7 @@ public class Pack {
 			}
 			String localPath = localDir + "/" + fileName;
 			File localFile = new File(localPath);
-			// Èç¹ûÎÄ¼ş´æÔÚÔòÈ¡ÏûÏÂÔØ
+			// ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if (localFile.exists()){
 				return;
 			}
