@@ -83,6 +83,7 @@ public class Synchronize {
 		
 		for (String aName:list){
 			downloadAlbum(aName);
+			System.out.println("album:"+aName+" finished.");
 		}
 	}
 	
@@ -181,9 +182,9 @@ public class Synchronize {
         	String thumbnailDir = dir +"/"+ THUMBNAIL_DIR_NAME;
         	String contentDir = dir +"/"+ CONTENT_DIR_NAME;
         	for (PhotoEntry photo : photos){
-        		// 保存小图
+        		// thunmbnail save
         		save(thumbnailDir,photo.getMediaThumbnails().get(0).getUrl());
-        		// 保存大图
+        		// content save
         		save(contentDir,photo.getMediaContents().get(0).getUrl());
         	}
         }
