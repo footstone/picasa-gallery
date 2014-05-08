@@ -1,17 +1,24 @@
 package net.azib.photos;
 
+import static java.lang.System.currentTimeMillis;
+import static java.util.Collections.synchronizedMap;
+
+import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
 import com.footstone.photos.ConfigFactory;
 import com.google.gdata.client.photos.PicasawebService;
 import com.google.gdata.data.IFeed;
 import com.google.gdata.data.PlainTextConstruct;
-import com.google.gdata.data.photos.*;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-
-import static java.lang.System.currentTimeMillis;
-import static java.util.Collections.synchronizedMap;
+import com.google.gdata.data.photos.AlbumEntry;
+import com.google.gdata.data.photos.AlbumFeed;
+import com.google.gdata.data.photos.CommentEntry;
+import com.google.gdata.data.photos.GphotoEntry;
+import com.google.gdata.data.photos.PhotoFeed;
+import com.google.gdata.data.photos.UserFeed;
 
 public class Picasa {
    // static Properties config = loadConfig();
@@ -119,7 +126,7 @@ public class Picasa {
 
     private <T extends IFeed> T feed(String url, Class<T> type) {
         try {
-            url = "https://picasaweb.google.com/data/feed/api/user/" + user + url;
+            url = "http://picasaweb.google.com/data/feed/api/user/" + user + url;
             if (authkey != null) url += (url.contains("?") ? "&" : "?") + "authkey=" + authkey;
             return service.getFeed(new URL(url), type);
         }

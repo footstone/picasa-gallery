@@ -36,7 +36,7 @@ public class RequestRouter implements Filter {
         if (request.getParameter("random") != null) {
             render("random", picasa.getRandomPhoto(), request, response);
         }
-        else if (path == null || "/".equals(path)) {
+        else if (path == null || "/".equals(path) || "gallery".equalsIgnoreCase(path)) {
             render("gallery", picasa.getGallery(), request, response);
         }
         else if (path.lastIndexOf('.') >= path.length() - 4) {
