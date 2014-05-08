@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="main" basedir="." name="picasa-gallery">
+	<property name="javac.version" value="1.6" />
+	<target name="build_picasa-gallery">
+		<tstamp>
+			<format property="pack.time" pattern="yyyy/MM/dd hh:mm" />
+		</tstamp>
+		<mkdir dir="./dist" />
+		<mkdir dir="./web/WEB-INF/classes" />
+		
+		<javac srcdir="./src" destdir="./web/WEB-INF/classes" optimize="on" debug="on" debuglevel="lines,vars,source" target="${javac.version}" encoding="UTF-8">
+			<classpath>
+				<fileset dir="./lib">
+					<include name="*.jar" />
+				</fileset>
+				<fileset dir="./web/WEB-INF/lib">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+		
+		<copy tofile="./web/WEB-INF/classes/config.properties" file="./src/config.properties" overwrite="true"/>
+				
+		<jar jarfile="./dist/picasa-gallery.war" compress="true" >
+           <fileset dir="./web">
+           		<include name="**/*.*" />
+           </fileset>
+        </jar>
+		
+	</target>
+
+	<target name="main" depends="build_picasa-gallery">
+		<echo>main</echo>
+	</target>
+</project>

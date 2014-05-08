@@ -6,3 +6,6 @@ bin/
 war/
 .classpath
 .project
+web/WEB-INF/classes/
+.settings/
+dist/
