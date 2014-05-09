@@ -27,6 +27,11 @@
            </fileset>
         </jar>
 		
+		<jar jarfile="./dist/picasa-gallery.jar" compress="true" >
+	       <fileset dir="./web/WEB-INF/classes">
+	        	<include name="**/*.*" />
+	       </fileset>
+	    </jar>
 	</target>
 
 	<target name="main" depends="build_picasa-gallery">
