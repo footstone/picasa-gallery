@@ -53,12 +53,12 @@ P.S. the app is a standard Java Servlet-based application, so it will work witho
 
 Without Google AppEngine (by footstone)
 =================================
-- 考虑到不需要GAE环境的情况，可以通过以下代码打包：
+- 考虑到不需要GAE环境的情况，可以通过以下代码打包（不需要下载任何GAE相关的东东）：
 
 ```
 	ant -f simple-build.xml
 ```
-- 考虑到picasa图库可能被墙的风险，增加墙内镜像的配置：
+- 考虑到picasa图库可能被墙的风险，config.properties中增加墙内镜像的配置：
 
 ```
 	image.url: 镜像图库域名地址(如http://x.com/photos),多个地址之间用";"间隔（不需要镜像的忽略）
