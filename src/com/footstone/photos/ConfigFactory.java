@@ -63,4 +63,7 @@ public class ConfigFactory {
 	public static String getLocalPath(){
 		return localPath;
 	}
+	public static boolean isLoadfromImage(){
+		return imageList.size() == 0 ? false:true;
+	}
 }

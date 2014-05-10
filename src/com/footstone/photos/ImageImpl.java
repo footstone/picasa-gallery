@@ -22,11 +22,12 @@ public class ImageImpl implements IImage{
 //		int a = 3;
 //		int b = (int) c%a;
 //		System.out.println(b);
-//		int count = 20;
-//		for (int i=0;i<count;i++){
-//			IImage image = new ImageImpl();
-//			image.getImageUrl();
-//			//System.out.println(COUNT+" "+image.getImageUrl());
-//		}
+		
+		int count = 20;
+		for (int i=0;i<count;i++){
+			IImage image = new ImageImpl();
+			System.out.println(image.getImageUrl());
+			//System.out.println(COUNT+" "+image.getImageUrl());
+		}
 	}
 }

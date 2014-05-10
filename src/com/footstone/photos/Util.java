@@ -41,6 +41,11 @@ public class Util {
 		if (remoteUrl == null || ("").equals(remoteUrl)){
 			return null;
 		}
+		
+		if (!ConfigFactory.isLoadfromImage()){
+			return remoteUrl;
+		}
+		
 		IImage image = new ImageImpl();
 		String imageUrl= image.getImageUrl();
 		if (imageUrl==""){
