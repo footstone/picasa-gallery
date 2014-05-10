@@ -49,3 +49,28 @@ How to use it for your own photos
 - Use AppEngine SDK / Eclipse / IntelliJ IDEA to deploy your application.
   Details here: <http://code.google.com/appengine/docs/java/gettingstarted/uploading.html>
 P.S. the app is a standard Java Servlet-based application, so it will work without AppEngine as well.
+
+
+Without Google AppEngine (by footstone)
+=================================
+- 考虑到不需要GAE环境的情况，可以通过以下代码打包：
+
+```
+	ant -f simple-build.xml
+```
+- 考虑到picasa图库可能被墙的风险，增加墙内镜像的配置：
+
+```
+	image.url: 镜像图库域名地址(如http://x.com/photos),多个地址之间用";"间隔（不需要镜像的忽略）
+	local.path: 镜像服务器上相册地址(如/home/app/photos),在同步比较相册时使用（不需要镜像的忽略）
+```
+- 墙内镜像图库同步方式，在镜像服务器上建立定时任务，执行以下脚本：
+
+```
+	java -classpath ${CLASSPATH} com.footstone.photos.proc.Synchronize sync
+```
+- 在heroku上部署该应用，参考[这里](http://footstone.github.io/2014/05/08/deploy-gallery-on-heroku/) 
+
+
+
+
